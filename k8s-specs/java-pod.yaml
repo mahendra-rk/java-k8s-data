@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: java-k8s-data-pod
+spec:
+  containers:
+    - image: java-k8s-data
+      name: java-k8s-data
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - name: config-volume
+          mountPath: /config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: java-config-reload-configmap
+  restartPolicy: Always
