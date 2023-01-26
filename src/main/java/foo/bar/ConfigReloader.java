@@ -6,10 +6,15 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.JSONConfiguration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.ConfigurationConverter;
 import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.reloading.PeriodicReloadingTrigger;
+
+import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 public class ConfigReloader implements AutoCloseable {
 
@@ -28,9 +33,11 @@ public class ConfigReloader implements AutoCloseable {
     trigger.start();
   }
 
-  public Configuration getConfig() {
+  public Map<String, Object> getConfig() {
     try {
-      return builder.getConfiguration();
+      return ConfigurationConverter.getMap(builder.getConfiguration()).entrySet().stream()
+              .collect(toMap(
+                      e -> e.getKey().toString(), Map.Entry::getValue));
     } catch (ConfigurationException cex) {
       throw new RuntimeException(cex);
     }

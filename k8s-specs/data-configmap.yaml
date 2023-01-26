@@ -4,12 +4,7 @@ metadata:
   name: java-config-reload-configmap
 data:
   config_develop.json: |
-    {
-        "current_env" : "gcp-development-minikube",
-        "Directory_Type" : "folder",
-        "Input_Environment_Type" : "gcs",
-        "Input_Environment_Location" : "raw-data",
-        "Output_Environment_Type" : "bigquery",
-        "Output_Environment_Location" : "test_ds",
-        "sleepIntervalMillis": 1000
+    { "dataset_codes": [
+    "gcp-development-minikube,folder,1000",
+    "aws-development-minikube,folder,1000"]
     }
